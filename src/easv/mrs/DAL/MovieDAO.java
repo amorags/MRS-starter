@@ -3,18 +3,45 @@ package easv.mrs.DAL;
 import easv.mrs.BE.Movie;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDAO implements IMovieDataAccess {
 
     private static final String MOVIES_FILE = "data/movie_titles.txt";
 
+
+
     public List<Movie> getAllMovies() throws IOException {
-        return null;
+
+        List<String> lines = Files.readAllLines(Path.of(MOVIES_FILE));
+        List<Movie> movies = new ArrayList<>();
+
+        for (String line: lines) {
+            String[] seperatedLine = line.split( ",");
+
+                //Map each seperated line to Movie object
+            int id = Integer.parseInt(seperatedLine[0]);
+            int year = Integer.parseInt(seperatedLine[1]);
+            String title = seperatedLine[2];
+
+            //create Movie object
+            Movie newMovie = new Movie(id, year, title);
+            movies.add(newMovie);
+
+
+            //System.out.println(seperatedLine);
+
+        }
+
+        return movies;
     }
 
     @Override
     public Movie createMovie(String title, int year) throws Exception {
+
         return null;
     }
 
